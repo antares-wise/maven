@@ -38,7 +38,7 @@ jobs:
       uses: aldo2510/customized-actions/.github/actions/validate-pom@v1.0.4
       with:
         pom-path: pom.xml
-        
+
     - name: Configurar Java 17
       uses: actions/setup-java@v4
       with:
@@ -61,7 +61,7 @@ jobs:
         high_threshold: 1
         #scan-type: 'sbom'
         #threshold: 'HIGH'
-        #fail_on_threshold_exceeded: "enabled"
+        fail_on_threshold_exceeded: "enabled"
         output-format: 'cyclonex-json'
 
     - name: Upload Scan Report
