@@ -16,7 +16,7 @@ permissions:
 jobs:
   security-scan:
     runs-on: ubuntu-latest
-    container: maven:3.8.5-openjdk-17
+    #container: maven:3.8.5-openjdk-17
     steps:
     - uses: actions/checkout@v5
     - name: Validate POM version (semver x.y.z)
@@ -38,6 +38,12 @@ jobs:
       uses: aldo2510/customized-actions/.github/actions/validate-pom@v1.0.4
       with:
         pom-path: pom.xml
+        
+    - name: Configurar Java 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -48,13 +54,14 @@ jobs:
     - name: AWS Inspector SBOM Scan
       uses: aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
       with:
-        artifact-type: 'repository'
-        artifact-path: './'
+        artifact_type: 'repository'
+        artifact_path: './'
         display_vulnerability_findings: "enabled"
         critical_threshold: 1
         high_threshold: 1
         #scan-type: 'sbom'
         #threshold: 'HIGH'
+        #fail_on_threshold_exceeded: "enabled"
         output-format: 'cyclonex-json'
 
     - name: Upload Scan Report
