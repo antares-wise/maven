@@ -63,6 +63,7 @@ jobs:
         #threshold: 'HIGH'
         fail_on_threshold_exceeded: 'enabled'
         threshold_fixable_only: 'false'
+        show_only_fixable_vulns: 'false'
         output-format: 'cyclonex-json'
 
     - name: Upload Scan Report
