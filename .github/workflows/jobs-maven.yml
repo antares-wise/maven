@@ -8,9 +8,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  id-token: write
+  contents: write
+
 # trabajos
 jobs:
-  build:
+  security-scan:
     runs-on: ubuntu-latest
     container: maven:3.8.5-openjdk-17
     steps:
@@ -34,7 +38,28 @@ jobs:
       uses: aldo2510/customized-actions/.github/actions/validate-pom@v1.0.4
       with:
         pom-path: pom.xml
-    
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::701109631773:role/Github-inspector
+        aws-region: us-east-1
+
+    - name: AWS Inspector SBOM Scan
+      uses: aws-actions/inspector-scan@v0
+      with:
+        scan-type: 'sbom'
+        threshold: 'HIGH'
+        output-format: 'cyclonex-json'
+
+    - name: Upload Scan Report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: inspector-report  
+        path: | 
+          sbom-*.json
+
     - name: Build with Maven
       run: mvn clean package -DskipTests
       
@@ -44,8 +69,4 @@ jobs:
         name: artifact
         path: target/*.jar
 
-  test:
-    runs-on: windows-latest
-    needs: build
-    steps:
-    - uses: actions/checkout@v5
+ 
