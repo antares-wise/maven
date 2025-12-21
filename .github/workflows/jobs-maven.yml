@@ -12,7 +12,7 @@ permissions:
   id-token: write
   contents: write
 
-# trabajos
+# trabajos oki
 jobs:
   security-scan:
     runs-on: ubuntu-latest
