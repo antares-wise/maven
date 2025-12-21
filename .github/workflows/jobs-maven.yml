@@ -46,10 +46,15 @@ jobs:
         aws-region: us-east-1
 
     - name: AWS Inspector SBOM Scan
-      uses: aws-actions/inspector-scan@v0
+      uses: aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
       with:
-        scan-type: 'sbom'
-        threshold: 'HIGH'
+        artifact-type: 'repository'
+        artifact-path: './'
+        display_vulnerability_findings: "enabled"
+        critical_threshold: 1
+        high_threshold: 1
+        #scan-type: 'sbom'
+        #threshold: 'HIGH'
         output-format: 'cyclonex-json'
 
     - name: Upload Scan Report
