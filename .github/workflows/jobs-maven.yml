@@ -1,6 +1,6 @@
 name: Fist Maven Pipeline
 
-# eventos que gatillan el workflow
+# eventos que gatillan el workflow ok
 on:
   workflow_dispatch:
   push:
