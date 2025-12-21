@@ -52,6 +52,7 @@ jobs:
         aws-region: us-east-1
 
     - name: AWS Inspector SBOM Scan
+      id: inspector_scan
       uses: aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
       with:
         artifact_type: 'repository'
@@ -64,7 +65,7 @@ jobs:
         fail_on_threshold_exceeded: 'enabled'
         threshold_fixable_only: 'false'
         show_only_fixable_vulns: 'false'
-        output-format: 'cyclonex-json'
+        output_format: 'cyclonex-json'
 
     - name: Check Scan Status
       if: steps.inspector_scan.outcome == 'failure'
