@@ -66,7 +66,7 @@ jobs:
           
         # 2. Ejecutar el escaneo del repositorio actual
         # Esto genera un archivo 'scan_results.json'
-        ./inspector-sbomgen -d . --outfile scan_results.json -v
+        ./inspector-sbomgen directory --path ./ --outfile scan_results.json
           
         # 3. Lógica de Build Break (Personalizable)
         # Buscamos si existen vulnerabilidades "CRITICAL" o "HIGH" en el archivo generado
