@@ -53,12 +53,13 @@ jobs:
 
     - name: AWS Inspector SBOM Scan
       id: inspector_scan
-      uses: aws-actions/inspector-scan@v0
+      uses: aws-actions/amazon-inspector-github-action@v1
       with:
-        scan-type: 'sbom'
-        threshold: 'HIGH'
-        display-vulnerabilities: true
-        
+        artifact_type: 'repository'
+        artifact_path: './'
+        critical_threshold: 1
+        high_threshold: 1
+
 
     - name: Upload Scan Report
       if: always()
