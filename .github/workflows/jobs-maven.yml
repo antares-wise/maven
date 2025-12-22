@@ -56,6 +56,7 @@ jobs:
         # 1. Descargar la herramienta de escaneo de AWS
         curl -L -s https://amazon-inspector-sbomgen.s3.amazonaws.com/latest/linux/amd64/inspector-sbomgen.zip -o inspector-sbomgen.zip
         unzip inspector-sbomgen.zip
+        mv linux/amd64/inspector-sbomgen .
         chmod +x inspector-sbomgen
           
         # 2. Ejecutar el escaneo del repositorio actual
