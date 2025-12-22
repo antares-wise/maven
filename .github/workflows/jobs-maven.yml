@@ -75,12 +75,12 @@ jobs:
 
     - name: Upload SBOM to Amazon Inspector
       run: |
-        aws inspector2 batch-import-findings --findings file://sbom-scan.json  
+        #aws inspector2 batch-import-findings --findings file://sbom-scan.json  
 
         # verificar si hay vulnerabilidades altas o criticas
-         aws inspector2 list-findings > findings.json  
+        # aws inspector2 list-findings > findings.json  
 
-         COUNT=$(jq '[.findings[] | select(.severity=="HIGH" or .severity=="CRITICAL")] | length' findings.json)
+         COUNT=$(jq '[.findings[] | select(.severity=="HIGH" or .severity=="CRITICAL")] | length' sbom-scan.json)
          if [ "$COUNT" -gt 0 ]; then
           echo "❌ Se encontraron $COUNT vulnerabilidades HIGH/CRITICAL. Build break!"
           exit 1
