@@ -45,6 +45,9 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Build with Maven
+      run: mvn clean package -DskipTests
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -66,7 +69,7 @@ jobs:
           
         # 2. Ejecutar el escaneo del repositorio actual
         # Esto genera un archivo 'scan_results.json'
-        ./inspector-sbomgen directory --path ./ --outfile scan_results.json -v
+        ./inspector-sbomgen target/*.jar --outfile scan_results.json -v
           
         # 3. Lógica de Build Break (Personalizable)
         # Buscamos si existen vulnerabilidades "CRITICAL" o "HIGH" en el archivo generado
@@ -89,9 +92,7 @@ jobs:
         path: | 
           sbom-*.json
 
-    - name: Build with Maven
-      run: mvn clean package -DskipTests
-      
+       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.6.2
       with:
