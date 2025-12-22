@@ -58,6 +58,7 @@ jobs:
         scan-type: 'sbom'
         threshold: 'HIGH'
         display-vulnerabilities: true
+        
 
     - name: Upload Scan Report
       if: always()
