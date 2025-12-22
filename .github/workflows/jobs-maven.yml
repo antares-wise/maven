@@ -46,7 +46,9 @@ jobs:
         distribution: 'temurin'
 
     - name: Build with Maven
-      run: mvn clean package -DskipTests
+      run: |
+       mvn clean package -DskipTests
+       mvn dependency:tree
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -72,6 +74,7 @@ jobs:
         # 2. Ejecutar el escaneo del repositorio actual
         # Esto genera un archivo 'scan_results.json'
         ./inspector-sbomgen archive --path target/*.jar --outfile sbom-scan.json -v
+        cat sbom-scan.json
 
     - name: Upload SBOM to Amazon Inspector
       run: |
