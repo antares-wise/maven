@@ -54,7 +54,7 @@ jobs:
     - name: AWS Inspector SBOM Scan
       run: |
         # 1. Descargar la herramienta de escaneo de AWS
-        curl -O https://inspector-sbomgen.s3.us-east-1.amazonaws.com/latest/linux/amd64/inspector-sbomgen
+        curl -L -s https://amazon-inspector-sbomgen.s3.amazonaws.com/latest/linux/amd64/inspector-sbomgen -o inspector-sbomgen
         chmod +x inspector-sbomgen
           
         # 2. Ejecutar el escaneo del repositorio actual
