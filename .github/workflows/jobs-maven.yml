@@ -59,7 +59,9 @@ jobs:
         # Buscar dinámicamente el binario 
         BIN_PATH=$(find . -type f -name inspector-sbomgen) 
         
-        # Moverlo a la raíz del workspace mv "$BIN_PATH" ./inspector-sbomgen
+        # Moverlo a la raíz del workspace 
+        mv "$BIN_PATH" ./inspector-sbomgen
+        
         chmod +x inspector-sbomgen
           
         # 2. Ejecutar el escaneo del repositorio actual
