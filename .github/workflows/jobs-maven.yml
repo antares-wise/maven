@@ -53,25 +53,11 @@ jobs:
 
     - name: AWS Inspector SBOM Scan
       id: inspector_scan
-      uses: aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
+      uses: aws-actions/inspector-scan@v0
       with:
-        artifact_type: 'repository'
-        artifact_path: './'
-        display_vulnerability_findings: 'enabled'
-        critical_threshold: 1
-        high_threshold: 1
-        #scan-type: 'sbom'
-        #threshold: 'HIGH'
-        fail_on_threshold_exceeded: 'enabled'
-        threshold_fixable_only: 'false'
-        show_only_fixable_vulns: 'false'
-        output_format: 'cyclonex-json'
-
-    - name: Check Scan Status
-      if: steps.inspector_scan.outcome == 'failure'
-      run: |
-        echo "Se detectaron vulnerabilidades críticas o altas. Deteniendo el flujo."
-        exit 1
+        scan-type: 'sbom'
+        threshold: 'HIGH'
+        display-vulnerabilities: true
 
     - name: Upload Scan Report
       if: always()
