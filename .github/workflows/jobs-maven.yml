@@ -77,8 +77,9 @@ jobs:
         ./inspector-sbomgen archive --path target/*.jar  --outfile sbom-scan.json --scan-sbom -v
         #cat sbom-scan.json
         cat sbom-scan.json
-        #jq . sbom-scan.json | tail -n 100
+        echo "jq . sbom-scan.json | tail -n 100"
         jq . sbom-scan.json | tail -n 100
+        echo "jq '.vulnerabilities' sbom-scan.json"
         jq '.vulnerabilities' sbom-scan.json
         
 
