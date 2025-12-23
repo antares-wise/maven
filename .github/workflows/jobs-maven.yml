@@ -87,11 +87,13 @@ jobs:
         # aws inspector2 list-findings > findings.json  
 
         COUNT=$(jq -r '[.vulnerabilities[]? | .ratings[]?.severity | select(test("high|critical"; "i"))] | length' sbom-scan.json)
+        #jq 'keys' sbom-scan.json
+        jq 'keys' sbom-scan.json
          if [ "$COUNT" -gt 0 ]; then
           echo "❌ Se encontraron $COUNT vulnerabilidades HIGH/CRITICAL. Build break!"
 
         # 2. Listar los detalles de forma limpia
-          jq -r 'select(.ratings[]?.severity | test("high|critical"; "i")) | "❌ [\(.ratings[0].severity | ascii_upcase)] \(.id) -> En componente: \(.bom-ref)"' sbom-scan.json
+          jq -r '[.vulnerabilities[]? | select(.ratings[]?.severity | test("high|critical"; "i")) | "❌ [\(.ratings[0].severity | ascii_upcase)] \(.id) -> En componente: \(.["bom-ref"])"' sbom-scan.json
           exit 1
         else
          echo "✅ No se encontraron vulnerabilidades HIGH/CRITICAL."
