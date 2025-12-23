@@ -97,7 +97,7 @@ jobs:
           echo "❌ Se encontraron $COUNT vulnerabilidades HIGH/CRITICAL. Build break!"
 
         # 2. Listar los detalles de forma limpia
-          jq -r '.vulnerabilities[]? | select(.ratings[]?.severity | test("high|critical"; "i"))  | "❌ [\(.ratings[0].severity | ascii_upcase)] \(.id) -> En componente: \(.["bom-ref"])"' sbom-scan.json
+          jq -r '.vulnerabilities[]? | select(any(.ratings[]; .severity | test("high|critical"; "i")))  | "❌ [\(.ratings[0].severity | ascii_upcase)] \(.id) -> En componente: \(.["bom-ref"])"' sbom-scan.json
           exit 1
         else
          echo "✅ No se encontraron vulnerabilidades HIGH/CRITICAL."
