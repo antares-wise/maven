@@ -77,6 +77,9 @@ jobs:
         ./inspector-sbomgen archive --path target/*.jar  --outfile sbom-scan.json --scan-sbom -v
         #cat sbom-scan.json
         cat sbom-scan.json
+        #jq . sbom-scan.json | tail -n 100
+        jq . sbom-scan.json | tail -n 100
+        jq '.vulnerabilities' sbom-scan.json
         
 
     - name: Upload SBOM to Amazon Inspector
@@ -93,7 +96,7 @@ jobs:
           echo "❌ Se encontraron $COUNT vulnerabilidades HIGH/CRITICAL. Build break!"
 
         # 2. Listar los detalles de forma limpia
-          jq -r '[.vulnerabilities[]? | select(.ratings[]?.severity | test("high|critical"; "i")) | "❌ [\(.ratings[0].severity | ascii_upcase)] \(.id) -> En componente: \(.["bom-ref"])"' sbom-scan.json
+          jq -r '.vulnerabilities[]? | select(.ratings[]?.severity | test("high|critical"; "i"))  | "❌ [\(.ratings[0].severity | ascii_upcase)] \(.id) -> En componente: \(.["bom-ref"])"' sbom-scan.json
           exit 1
         else
          echo "✅ No se encontraron vulnerabilidades HIGH/CRITICAL."
