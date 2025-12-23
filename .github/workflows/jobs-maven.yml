@@ -90,7 +90,7 @@ jobs:
         # verificar si hay vulnerabilidades altas o criticas
         # aws inspector2 list-findings > findings.json  
 
-        COUNT=$(jq -r '[.vulnerabilities[]? | .ratings[]?.severity | select(test("high|critical"; "i"))] | length' sbom-scan.json)
+        COUNT=$(jq -r '[.vulnerabilities[]? | select(any(.ratings[]; .severity | test("high|critical"; "i")))] | length' sbom-scan.json)
         #jq 'keys' sbom-scan.json
         jq 'keys' sbom-scan.json
          if [ "$COUNT" -gt 0 ]; then
