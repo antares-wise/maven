@@ -88,16 +88,13 @@ jobs:
         #aws inspector2 batch-import-findings --findings file://sbom-scan.json  
 
         # verificar si hay vulnerabilidades altas o criticas
-        # aws inspector2 list-findings > findings.json  
-
+        
         COUNT=$(jq -r '[.vulnerabilities[]? | select(any(.ratings[]; .severity | test("high|critical"; "i")))] | length' sbom-scan.json)
-        #jq 'keys' sbom-scan.json
-        jq 'keys' sbom-scan.json
-         if [ "$COUNT" -gt 0 ]; then
+        if [ "$COUNT" -gt 0 ]; then
           echo "❌ Se encontraron $COUNT vulnerabilidades HIGH/CRITICAL. Build break!"
 
         # 2. Listar los detalles de forma limpia
-          jq -r '.vulnerabilities[]? | select(any(.ratings[]; .severity | test("high|critical"; "i")))  | "❌ [\(.ratings[].severity | ascii_upcase)] \(.id) -> En componente: \(.["bom-ref"])"' sbom-scan.json
+          jq -r '.vulnerabilities[]? | select(any(.ratings[]; .severity | test("high|critical"; "i")))  | "❌ \(.id) -> En componente: \(.["bom-ref"])"' sbom-scan.json
           exit 1
         else
          echo "✅ No se encontraron vulnerabilidades HIGH/CRITICAL."
